@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launchConfiguration type="org.eclipse.m2m.atl.adt.launching.atlTransformation">
+<stringAttribute key="ATL File Name" value="/uml2cs-transformations/EModelCopyGenerator.atl"/>
+<stringAttribute key="ATL VM" value="Regular VM (with debugger)"/>
+<booleanAttribute key="AllowInterModelReferences" value="false"/>
+<mapAttribute key="Input">
+<mapEntry key="IN" value="ECORE"/>
+</mapAttribute>
+<mapAttribute key="Libs">
+<mapEntry key="Config" value="/atl-superimposition-semantics/lib/Config.asm"/>
+</mapAttribute>
+<booleanAttribute key="Mode Debug" value="false"/>
+<mapAttribute key="Model Handler">
+<mapEntry key="ECORE" value="EMF"/>
+</mapAttribute>
+<mapAttribute key="ModelType">
+<mapEntry key="ECORE" value="METAMODELINPUT"/>
+<mapEntry key="IN" value="MODELINPUT"/>
+</mapAttribute>
+<mapAttribute key="Output"/>
+<mapAttribute key="Path">
+<mapEntry key="ECORE" value="#EMF"/>
+<mapEntry key="IN" value="/org.eclipse.m2m.atl.dsls/resources/ATL/Metamodel/ATL.ecore"/>
+</mapAttribute>
+<stringAttribute key="Project Name" value="uml2cs-transformations"/>
+<listAttribute key="Superimpose"/>
+<booleanAttribute key="continueAfterError" value="false"/>
+<booleanAttribute key="disableAttributeHelperCache" value="false"/>
+<booleanAttribute key="printExecutionTime" value="true"/>
+<booleanAttribute key="profile" value="false"/>
+<booleanAttribute key="showSummary" value="false"/>
+<booleanAttribute key="step" value="false"/>
+</launchConfiguration>

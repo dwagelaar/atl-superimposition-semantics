@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="atl-superimposition-semantics" default="superimpose">
+
+	<target name="loadModels">
+		<am3.loadModel modelHandler="EMF" name="ATL" metamodel="MOF" nsuri="http://www.eclipse.org/gmt/2005/ATL"/>
+		<am3.loadModel modelHandler="EMF" name="TCS" metamodel="MOF" path="/${ant.project.name}/metamodels/TCS.ecore"/>
+		<am3.loadModel modelHandler="EMF" name="ATLCopy" metamodel="ATL" path="/${ant.project.name}/ATLCopy.atl">
+			<injector name="ebnf">
+				<param name="name" value="ATL"/>
+			</injector>
+		</am3.loadModel>
+		<am3.saveModel model="ATLCopy" path="/${ant.project.name}/ATLCopy.xmi"/>
+		<am3.loadModel modelHandler="EMF" name="Superimpose" metamodel="ATL" path="/${ant.project.name}/Superimpose.atl">
+			<injector name="ebnf">
+				<param name="name" value="ATL"/>
+			</injector>
+		</am3.loadModel>
+		<am3.saveModel model="Superimpose" path="/${ant.project.name}/Superimpose.xmi"/>
+		<am3.loadModel modelHandler="EMF" name="ATL.tcs" metamodel="TCS" path="/${ant.project.name}/syntax/ATL.tcs">
+			<injector name="ebnf">
+				<param name="name" value="TCS"/>
+			</injector>
+		</am3.loadModel>
+	</target>
+	
+	<target name="atlCopy" depends="loadModels">
+		<am3.atl path="/${ant.project.name}/ATLCopy.atl">
+			<inmodel name="ATL" model="ATL"/>
+			<inmodel name="IN" model="ATLCopy"/>
+			<outmodel name="OUT" model="ATLCopyCopy" metamodel="ATL" path="/${ant.project.name}/ATLCopyCopy.xmi"/>
+		</am3.atl>
+		<am3.saveModel model="ATLCopyCopy" path="/${ant.project.name}/ATLCopyCopy.xmi"/>
+		<am3.saveModel model="ATLCopyCopy" path="/${ant.project.name}/ATLCopyCopy.atl">
+			<extractor name="ebnf">
+				<param name="format" value="ATL.tcs"/>
+				<param name="indentString" value="  "/>
+				<param name="serializeComments" value="true"/>
+			</extractor>
+		</am3.saveModel>
+	</target>
+
+	<target name="superimpose" depends="loadModels">
+		<am3.atl path="/${ant.project.name}/ATLCopy.atl">
+			<inmodel name="ATL" model="ATL"/>
+			<inmodel name="IN" model="ATLCopy"/>
+			<inmodel name="SUPER" model="Superimpose"/>
+			<outmodel name="OUT" model="ATLSuperimpose" metamodel="ATL" path="/${ant.project.name}/ATLSuperimpose.atl"/>
+			<superimpose path="/${ant.project.name}/Superimpose.asm"/>
+		</am3.atl>
+		<am3.saveModel model="ATLSuperimpose" path="/${ant.project.name}/ATLSuperimpose.xmi"/>
+		<am3.saveModel model="ATLSuperimpose" path="/${ant.project.name}/ATLSuperimpose.atl">
+			<extractor name="ebnf">
+				<param name="format" value="ATL.tcs"/>
+				<param name="indentString" value="  "/>
+				<param name="serializeComments" value="true"/>
+			</extractor>
+		</am3.saveModel>
+	</target>
+
+</project>

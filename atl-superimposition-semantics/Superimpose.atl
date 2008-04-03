@@ -1,0 +1,231 @@
+-- @atlcompiler atl2006
+-- $Id$
+-- This transformation defines the semantics of superimposing SUPER on IN.
+module Superimpose;
+
+create OUT : ATL from IN : ATL, SUPER : ATL, TEST : ATL;
+
+helper def : inElements : Set(ATL!"ATL::LocatedElement") = 
+	ATL!"ATL::LocatedElement".allInstancesFrom('IN')
+		->reject(o|o.isOverridden())->asSet()
+		->union(
+			ATL!"ATL::LocatedElement".allInstancesFrom('SUPER')
+			->reject(s|
+				if s.oclIsKindOf(ATL!"ATL::Rule")
+				or s.oclIsKindOf(ATL!"ATL::Helper") then
+					s.isOverriding()
+				else
+					false
+				endif));
+
+helper def : realInElements : Set(ATL!"ATL::LocatedElement") = 
+	ATL!"ATL::LocatedElement".allInstancesFrom('IN');
+
+-- ***************************** isOverridden ******************************** 
+
+helper context ATL!"ATL::LocatedElement" def : isOverridden() : Boolean =
+	let owner : ATL!"ATL::LocatedElement" = self.refImmediateComposite() in
+	if owner.oclIsUndefined() then
+		false
+	else
+		owner.isOverridden()
+	endif;
+
+helper context ATL!"ATL::Rule" def : isOverridden() : Boolean =
+	let selfInSuper : Sequence(ATL!"ATL::Rule") = 
+		ATL!"ATL::Rule".allInstancesFrom('SUPER')
+		->select(r|r.name = self.name and r.oclType() = self.oclType())
+	in selfInSuper->notEmpty();
+
+helper context ATL!"ATL::Helper" def : isOverridden() : Boolean =
+	let selfInSuper : Sequence(ATL!"ATL::Helper") = 
+		ATL!"ATL::Helper".allInstancesFrom('SUPER')
+		->select(r|r.definition.feature.name = self.definition.feature.name
+			and r.definition.feature.oclType() = self.definition.feature.oclType()
+			and if r.definition.context_.oclIsUndefined()
+				or self.definition.context_.oclIsUndefined() then
+					r.definition.context_ = self.definition.context_
+				else
+					r.definition.context_.context_.name = 
+						self.definition.context_.context_.name
+				endif)
+	in selfInSuper->notEmpty();
+
+helper context ATL!"OCL::VariableDeclaration" def : isOverridden() : Boolean =
+	self.variableExp->iterate(e; acc : Boolean = false |
+		acc or e.isOverridden());
+
+helper context ATL!"OCL::OclModel" def : isOverridden() : Boolean =
+	let selfInSuper : Sequence(ATL!"OCL::OclModel") = 
+		ATL!"OCL::OclModel".allInstancesFrom('SUPER')
+		->select(r|r.name = self.name and r.oclType() = self.oclType())
+	in selfInSuper->notEmpty();
+
+-- ***************************** isOverriding ******************************** 
+
+helper context ATL!"ATL::LocatedElement" def : isOverriding() : Boolean =
+	let owner : ATL!"ATL::LocatedElement" = self.refImmediateComposite() in
+	if owner.oclIsUndefined() then
+		false
+	else
+		owner.isOverriding()
+	endif;
+
+helper context ATL!"ATL::Rule" def : isOverriding() : Boolean =
+	let selfInIN : Sequence(ATL!"ATL::Rule") = 
+		ATL!"ATL::Rule".allInstancesFrom('IN')
+		->select(r|r.name = self.name and r.oclType() = self.oclType())
+	in selfInIN->notEmpty();
+
+helper context ATL!"ATL::Helper" def : isOverriding() : Boolean =
+	let selfInIN : Sequence(ATL!"ATL::Helper") = 
+		ATL!"ATL::Helper".allInstancesFrom('IN')
+		->select(r|r.definition.feature.name = self.definition.feature.name
+			and r.definition.feature.oclType() = self.definition.feature.oclType()
+			and if r.definition.context_.oclIsUndefined()
+				or self.definition.context_.oclIsUndefined() then
+					r.definition.context_ = self.definition.context_
+				else
+					r.definition.context_.context_.name = 
+						self.definition.context_.context_.name
+				endif)
+	in selfInIN->notEmpty();
+
+helper context ATL!"OCL::OclModel" def : isOverriding() : Boolean =
+	let selfInIN : Sequence(ATL!"OCL::OclModel") = 
+		ATL!"OCL::OclModel".allInstancesFrom('IN')
+		->select(r|r.name = self.name and r.oclType() = self.oclType())
+	in selfInIN->notEmpty();
+
+-- ***************************** overriddenBy ******************************** 
+
+helper context ATL!"ATL::Rule" def : overriddenBy() : ATL!"ATL::Rule" =
+	let selfInSuper : Sequence(ATL!"ATL::Rule") = 
+		ATL!"ATL::Rule".allInstancesFrom('SUPER')
+		->select(r|r.name = self.name and r.oclType() = self.oclType())
+	in
+	if selfInSuper->isEmpty() then
+		self
+	else
+		selfInSuper->first()
+	endif;
+
+helper context ATL!"ATL::Helper" def : overriddenBy() : ATL!"ATL::Helper" =
+	let selfInSuper : Sequence(ATL!"ATL::Helper") = 
+		ATL!"ATL::Helper".allInstancesFrom('SUPER')
+		->select(r|r.definition.feature.name = self.definition.feature.name
+			and r.definition.feature.oclType() = self.definition.feature.oclType()
+			and if r.definition.context_.oclIsUndefined()
+				or self.definition.context_.oclIsUndefined() then
+					r.definition.context_ = self.definition.context_
+				else
+					r.definition.context_.context_.name = 
+						self.definition.context_.context_.name
+				endif)
+	in
+	if selfInSuper->isEmpty() then
+		self
+	else
+		selfInSuper->first()
+	endif;
+
+helper context ATL!"OCL::OclModel" def : overriddenBy() : ATL!"OCL::OclModel" =
+	let selfInSuper : Sequence(ATL!"OCL::OclModel") = 
+		ATL!"OCL::OclModel".allInstancesFrom('SUPER')
+		->select(r|r.name = self.name and r.oclType() = self.oclType())
+	in
+	if selfInSuper->isEmpty() then
+		self
+	else
+		selfInSuper->first()
+	endif;
+
+-- ******************************** rules ************************************ 
+
+rule Module {
+    from s : ATL!"ATL::Module" (thisModule.realInElements->includes(s))
+	using { 
+    	superElements : Sequence(ATL!"ATL::ModuleElement") = 
+    		ATL!"ATL::Module".allInstancesFrom('SUPER')
+			->collect(m|m.elements
+				->select(e|not e.isOverriding()))
+			->flatten();
+		superInModels : Sequence(ATL!"OCL::OclModel") =
+			ATL!"ATL::Module".allInstancesFrom('SUPER')
+			->collect(m|m.inModels)
+			->flatten();
+		superOutModels : Sequence(ATL!"OCL::OclModel") =
+			ATL!"ATL::Module".allInstancesFrom('SUPER')
+			->collect(m|m.outModels)
+			->flatten();
+    }
+    to t : ATL!"ATL::Module" (
+        location <- s.location,
+        commentsBefore <- s.commentsBefore,
+        commentsAfter <- s.commentsAfter,
+        name <- s.name,
+        isRefining <- s.isRefining,
+        libraries <- s.libraries,
+        inModels <- s.inModels->union(superInModels),
+        outModels <- s.outModels->union(superOutModels),
+        elements <- s.elements->union(superElements))
+}
+
+rule OverriddenMatchedRule {
+    from s : ATL!"ATL::MatchedRule" (
+		if thisModule.realInElements->includes(s) then
+			s.oclIsTypeOf(ATL!"ATL::MatchedRule") and
+			s.isOverridden()
+		else false endif)
+	using { o : ATL!"ATL::MatchedRule" = s.overriddenBy(); }
+    to t : ATL!"ATL::MatchedRule" (
+        location <- o.location,
+        commentsBefore <- o.commentsBefore,
+        commentsAfter <- o.commentsAfter,
+        name <- o.name,
+        isAbstract <- o.isAbstract,
+        isRefining <- o.isRefining,
+        isNoDefault <- o.isNoDefault,
+        outPattern <- o.outPattern,
+        actionBlock <- o.actionBlock,
+        variables <- o.variables,
+        inPattern <- o.inPattern,
+        children <- o.children,
+        superRule <- o.superRule)
+}
+
+rule OverriddenHelper {
+    from s : ATL!"ATL::Helper" (
+		if thisModule.realInElements->includes(s) then
+			s.isOverridden()
+		else false endif)
+	using { o : ATL!"ATL::MatchedRule" = s.overriddenBy(); }
+	to t : ATL!"ATL::Helper" (
+        location <- o.location,
+        commentsBefore <- o.commentsBefore,
+        commentsAfter <- o.commentsAfter,
+        definition <- o.definition)
+}
+
+rule OclModel {
+    from s : ATL!"OCL::OclModel" (thisModule.inElements->includes(s))
+    to t : ATL!"OCL::OclModel" (
+        location <- s.location,
+        commentsBefore <- s.commentsBefore,
+        commentsAfter <- s.commentsAfter,
+        name <- s.name,
+        metamodel <- s.metamodel,
+        elements <- s.elements,
+        model <- s.model)
+}
+
+rule OclModelElement {
+    from s : ATL!"OCL::OclModelElement" (thisModule.inElements->includes(s))
+    to t : ATL!"OCL::OclModelElement" (
+        location <- s.location,
+        commentsBefore <- s.commentsBefore,
+        commentsAfter <- s.commentsAfter,
+        name <- s.name,
+        type <- s.type,
+        model <- s.model.overriddenBy())
+}

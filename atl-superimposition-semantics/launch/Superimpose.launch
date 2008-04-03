@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launchConfiguration type="org.eclipse.m2m.atl.adt.launching.atlTransformation">
+<stringAttribute key="ATL File Name" value="/atl-superimposition-semantics/ATLCopy.atl"/>
+<stringAttribute key="ATL VM" value="Regular VM (with debugger)"/>
+<booleanAttribute key="AllowInterModelReferences" value="false"/>
+<mapAttribute key="Input">
+<mapEntry key="SUPER" value="ATL"/>
+<mapEntry key="IN" value="ATL"/>
+</mapAttribute>
+<mapAttribute key="Libs"/>
+<booleanAttribute key="Mode Debug" value="false"/>
+<mapAttribute key="Model Handler">
+<mapEntry key="ATL" value="EMF"/>
+</mapAttribute>
+<mapAttribute key="ModelType">
+<mapEntry key="OUT" value="MODELOUTPUT"/>
+<mapEntry key="SUPER" value="MODELINPUT"/>
+<mapEntry key="ATL" value="METAMODELOUTPUT"/>
+<mapEntry key="IN" value="MODELINPUT"/>
+</mapAttribute>
+<mapAttribute key="Output">
+<mapEntry key="OUT" value="ATL"/>
+</mapAttribute>
+<mapAttribute key="Path">
+<mapEntry key="OUT" value="/atl-superimposition-semantics/ATLSuperimpose.xmi"/>
+<mapEntry key="SUPER" value="/atl-superimposition-semantics/Superimpose.xmi"/>
+<mapEntry key="ATL" value="uri:http://www.eclipse.org/gmt/2005/ATL"/>
+<mapEntry key="IN" value="/atl-superimposition-semantics/ATLCopy.xmi"/>
+</mapAttribute>
+<stringAttribute key="Project Name" value="atl-superimposition-semantics"/>
+<listAttribute key="Superimpose">
+<listEntry value="/atl-superimposition-semantics/Superimpose.asm"/>
+</listAttribute>
+<booleanAttribute key="continueAfterError" value="false"/>
+<booleanAttribute key="disableAttributeHelperCache" value="false"/>
+<booleanAttribute key="printExecutionTime" value="true"/>
+<booleanAttribute key="profile" value="false"/>
+<booleanAttribute key="showSummary" value="false"/>
+<booleanAttribute key="step" value="false"/>
+</launchConfiguration>
