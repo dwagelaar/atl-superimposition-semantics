@@ -294,8 +294,3 @@ rule OclModelElement {
         type <- s.type,
         model <- s.model.overriddenBy())
 }
-
-rule Test(s : ATL!"OCL::OclModel") {
-	to t : ATL!"OCL:OclModel" (
-		name <- s.name.debug('Test'))
-}

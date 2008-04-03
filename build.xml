@@ -57,4 +57,21 @@
 		</am3.saveModel>
 	</target>
 
+	<target name="atlSuperimpose" depends="loadModels">
+		<am3.atl path="/${ant.project.name}/ATLSuperimpose.atl">
+			<inmodel name="ATL" model="ATL"/>
+			<inmodel name="IN" model="ATLCopy"/>
+			<inmodel name="SUPER" model="Superimpose"/>
+			<outmodel name="OUT" model="ATLSuperimpose" metamodel="ATL" path="/${ant.project.name}/ATLSuperimpose.atl"/>
+		</am3.atl>
+		<am3.saveModel model="ATLSuperimpose" path="/${ant.project.name}/ATLSuperimpose.xmi"/>
+		<am3.saveModel model="ATLSuperimpose" path="/${ant.project.name}/ATLSuperimpose.atl">
+			<extractor name="ebnf">
+				<param name="format" value="ATL.tcs"/>
+				<param name="indentString" value="  "/>
+				<param name="serializeComments" value="true"/>
+			</extractor>
+		</am3.saveModel>
+	</target>
+
 </project>

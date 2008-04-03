@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:atl="http://www.eclipse.org/gmt/2005/ATL" xmlns:ocl="http://www.eclipse.org/gmt/2005/OCL">
-  <atl:Module location="4:1-301:2" name="Superimpose">
+  <atl:Module location="4:1-296:2" name="Superimpose">
     <inModels location="6:23-6:31" name="IN" metamodel="/1"/>
     <inModels location="6:33-6:44" name="SUPER" metamodel="/1"/>
     <outModels location="6:8-6:17" name="OUT" metamodel="/1"/>
-    <elements xsi:type="atl:Helper" location="8:1-19:13">
-      <definition location="8:8-19:12">
-        <feature xsi:type="ocl:Attribute" location="8:14-19:12" name="inElements">
-          <initExpression xsi:type="ocl:CollectionOperationCallExp" location="9:2-19:12" operationName="union">
-            <source xsi:type="ocl:CollectionOperationCallExp" location="9:2-10:40" operationName="asSet">
-              <source xsi:type="ocl:IteratorExp" location="9:2-10:31" name="reject">
+    <elements xsi:type="atl:Helper" location="8:1-19:12">
+      <definition location="8:8-19:11">
+        <feature xsi:type="ocl:Attribute" location="8:14-19:11" name="inElements">
+          <initExpression xsi:type="ocl:CollectionOperationCallExp" location="9:2-19:11" operationName="union">
+            <source xsi:type="ocl:CollectionOperationCallExp" location="9:2-10:39" operationName="asSet">
+              <source xsi:type="ocl:IteratorExp" location="9:2-10:30" name="reject">
                 <source xsi:type="ocl:OperationCallExp" location="9:2-9:50" operationName="allInstancesFrom">
                   <source xsi:type="ocl:OclModelElement" location="9:2-9:27" name="ATL::LocatedElement" model="/1"/>
                   <arguments xsi:type="ocl:StringExp" location="9:45-9:49" stringSymbol="IN"/>
                 </source>
-                <body xsi:type="ocl:OperationCallExp" location="10:14-10:30" operationName="isOverridden">
-                  <source xsi:type="ocl:VariableExp" location="10:14-10:15" referredVariable="/0/@elements.0/@definition/@feature/@initExpression/@source/@source/@iterators.0"/>
+                <body xsi:type="ocl:OperationCallExp" location="10:13-10:29" operationName="isOverridden">
+                  <source xsi:type="ocl:VariableExp" location="10:13-10:14" referredVariable="/0/@elements.0/@definition/@feature/@initExpression/@source/@source/@iterators.0"/>
                 </body>
-                <iterators location="10:12-10:13" varName="o" variableExp="/0/@elements.0/@definition/@feature/@initExpression/@source/@source/@body/@source"/>
+                <iterators location="10:11-10:12" varName="o" variableExp="/0/@elements.0/@definition/@feature/@initExpression/@source/@source/@body/@source"/>
               </source>
             </source>
-            <arguments xsi:type="ocl:IteratorExp" location="12:4-19:11" name="reject">
-              <source xsi:type="ocl:OperationCallExp" location="12:4-12:55" operationName="allInstancesFrom">
-                <source xsi:type="ocl:OclModelElement" location="12:4-12:29" name="ATL::LocatedElement" model="/1"/>
-                <arguments xsi:type="ocl:StringExp" location="12:47-12:54" stringSymbol="SUPER"/>
+            <arguments xsi:type="ocl:IteratorExp" location="12:3-19:10" name="reject">
+              <source xsi:type="ocl:OperationCallExp" location="12:3-12:54" operationName="allInstancesFrom">
+                <source xsi:type="ocl:OclModelElement" location="12:3-12:28" name="ATL::LocatedElement" model="/1"/>
+                <arguments xsi:type="ocl:StringExp" location="12:46-12:53" stringSymbol="SUPER"/>
               </source>
-              <body xsi:type="ocl:IfExp" location="14:5-19:10">
-                <thenExpression xsi:type="ocl:OperationCallExp" location="16:6-16:22" operationName="isOverriding">
-                  <source xsi:type="ocl:VariableExp" location="16:6-16:7" referredVariable="/0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@iterators.0"/>
+              <body xsi:type="ocl:IfExp" location="14:4-19:9">
+                <thenExpression xsi:type="ocl:OperationCallExp" location="16:5-16:21" operationName="isOverriding">
+                  <source xsi:type="ocl:VariableExp" location="16:5-16:6" referredVariable="/0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@iterators.0"/>
                 </thenExpression>
-                <condition xsi:type="ocl:OperatorCallExp" location="14:8-15:40" operationName="or">
-                  <source xsi:type="ocl:OperationCallExp" location="14:8-14:38" operationName="oclIsKindOf">
-                    <source xsi:type="ocl:VariableExp" location="14:8-14:9" referredVariable="/0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@iterators.0"/>
-                    <arguments xsi:type="ocl:OclModelElement" location="14:22-14:37" name="ATL::Rule" model="/1"/>
+                <condition xsi:type="ocl:OperatorCallExp" location="14:7-15:39" operationName="or">
+                  <source xsi:type="ocl:OperationCallExp" location="14:7-14:37" operationName="oclIsKindOf">
+                    <source xsi:type="ocl:VariableExp" location="14:7-14:8" referredVariable="/0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@iterators.0"/>
+                    <arguments xsi:type="ocl:OclModelElement" location="14:21-14:36" name="ATL::Rule" model="/1"/>
                   </source>
-                  <arguments xsi:type="ocl:OperationCallExp" location="15:8-15:40" operationName="oclIsKindOf">
-                    <source xsi:type="ocl:VariableExp" location="15:8-15:9" referredVariable="/0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@iterators.0"/>
-                    <arguments xsi:type="ocl:OclModelElement" location="15:22-15:39" name="ATL::Helper" model="/1"/>
+                  <arguments xsi:type="ocl:OperationCallExp" location="15:7-15:39" operationName="oclIsKindOf">
+                    <source xsi:type="ocl:VariableExp" location="15:7-15:8" referredVariable="/0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@iterators.0"/>
+                    <arguments xsi:type="ocl:OclModelElement" location="15:21-15:38" name="ATL::Helper" model="/1"/>
                   </arguments>
                 </condition>
-                <elseExpression xsi:type="ocl:BooleanExp" location="18:6-18:11"/>
+                <elseExpression xsi:type="ocl:BooleanExp" location="18:5-18:10"/>
               </body>
-              <iterators location="13:13-13:14" varName="s" variableExp="/0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@body/@condition/@source/@source /0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@body/@condition/@arguments.0/@source /0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@body/@thenExpression/@source"/>
+              <iterators location="13:12-13:13" varName="s" variableExp="/0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@body/@condition/@source/@source /0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@body/@condition/@arguments.0/@source /0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@body/@thenExpression/@source"/>
             </arguments>
           </initExpression>
           <type xsi:type="ocl:SetType" location="8:27-8:57">
@@ -1470,26 +1470,8 @@
         </filter>
       </inPattern>
     </elements>
-    <elements xsi:type="atl:CalledRule" location="298:1-301:2" name="Test">
-      <outPattern location="299:2-300:32">
-        <elements xsi:type="atl:SimpleOutPatternElement" location="299:5-300:32" varName="t">
-          <type xsi:type="ocl:OclModelElement" location="299:9-299:27" name="OCL:OclModel" model="/1"/>
-          <bindings location="300:3-300:31" propertyName="name">
-            <value xsi:type="ocl:OperationCallExp" location="300:11-300:31" operationName="debug">
-              <source xsi:type="ocl:NavigationOrAttributeCallExp" location="300:11-300:17" name="name">
-                <source xsi:type="ocl:VariableExp" location="300:11-300:12" referredVariable="/0/@elements.23/@parameters.0"/>
-              </source>
-              <arguments xsi:type="ocl:StringExp" location="300:24-300:30" stringSymbol="Test"/>
-            </value>
-          </bindings>
-        </elements>
-      </outPattern>
-      <parameters location="298:11-298:34" varName="s" variableExp="/0/@elements.23/@outPattern/@elements.0/@bindings.0/@value/@source/@source">
-        <type xsi:type="ocl:OclModelElement" location="298:15-298:34" name="OCL::OclModel" model="/1"/>
-      </parameters>
-    </elements>
   </atl:Module>
-  <ocl:OclModel location="6:14-6:17" name="ATL" elements="/0/@elements.0/@definition/@feature/@type/@elementType /0/@elements.0/@definition/@feature/@initExpression/@source/@source/@source/@source /0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@source/@source /0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@body/@condition/@source/@arguments.0 /0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@body/@condition/@arguments.0/@arguments.0 /0/@elements.1/@definition/@feature/@type/@elementType /0/@elements.1/@definition/@feature/@initExpression/@source /0/@elements.2/@definition/@context_/@context_ /0/@elements.2/@definition/@feature/@body/@variable/@type /0/@elements.3/@definition/@context_/@context_ /0/@elements.3/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.3/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.4/@definition/@context_/@context_ /0/@elements.4/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.4/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.5/@definition/@context_/@context_ /0/@elements.5/@definition/@feature/@body/@variable/@type /0/@elements.6/@definition/@context_/@context_ /0/@elements.6/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.6/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.7/@definition/@context_/@context_ /0/@elements.7/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.7/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.8/@definition/@context_/@context_ /0/@elements.8/@definition/@feature/@body/@variable/@type /0/@elements.9/@definition/@context_/@context_ /0/@elements.9/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.9/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.10/@definition/@context_/@context_ /0/@elements.10/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.10/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.11/@definition/@context_/@context_ /0/@elements.11/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.11/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.12/@definition/@context_/@context_ /0/@elements.12/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.12/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.13/@definition/@context_/@context_ /0/@elements.13/@definition/@feature/@returnType /0/@elements.13/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.13/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.14/@definition/@context_/@context_ /0/@elements.14/@definition/@feature/@returnType /0/@elements.14/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.14/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.15/@definition/@context_/@context_ /0/@elements.15/@definition/@feature/@returnType /0/@elements.15/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.15/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.16/@inPattern/@elements.0/@type /0/@elements.16/@variables.0/@type/@elementType /0/@elements.16/@variables.0/@initExpression/@source/@source/@source /0/@elements.16/@variables.1/@type/@elementType /0/@elements.16/@variables.1/@initExpression/@source/@source/@source /0/@elements.16/@variables.2/@type/@elementType /0/@elements.16/@variables.2/@initExpression/@source/@source/@source /0/@elements.16/@variables.3/@type/@elementType /0/@elements.16/@variables.3/@initExpression/@source/@source/@source /0/@elements.16/@outPattern/@elements.0/@type /0/@elements.17/@inPattern/@elements.0/@type /0/@elements.17/@inPattern/@filter/@thenExpression/@source/@arguments.0 /0/@elements.17/@variables.0/@type /0/@elements.17/@outPattern/@elements.0/@type /0/@elements.18/@inPattern/@elements.0/@type /0/@elements.18/@variables.0/@type /0/@elements.18/@outPattern/@elements.0/@type /0/@elements.19/@inPattern/@elements.0/@type /0/@elements.19/@variables.0/@type /0/@elements.19/@outPattern/@elements.0/@type /0/@elements.20/@inPattern/@elements.0/@type /0/@elements.20/@variables.0/@type /0/@elements.20/@outPattern/@elements.0/@type /0/@elements.21/@inPattern/@elements.0/@type /0/@elements.21/@outPattern/@elements.0/@type /0/@elements.22/@inPattern/@elements.0/@type /0/@elements.22/@outPattern/@elements.0/@type /0/@elements.23/@parameters.0/@type /0/@elements.23/@outPattern/@elements.0/@type" model="/0/@outModels.0 /0/@inModels.0 /0/@inModels.1"/>
+  <ocl:OclModel location="6:14-6:17" name="ATL" elements="/0/@elements.0/@definition/@feature/@type/@elementType /0/@elements.0/@definition/@feature/@initExpression/@source/@source/@source/@source /0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@source/@source /0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@body/@condition/@source/@arguments.0 /0/@elements.0/@definition/@feature/@initExpression/@arguments.0/@body/@condition/@arguments.0/@arguments.0 /0/@elements.1/@definition/@feature/@type/@elementType /0/@elements.1/@definition/@feature/@initExpression/@source /0/@elements.2/@definition/@context_/@context_ /0/@elements.2/@definition/@feature/@body/@variable/@type /0/@elements.3/@definition/@context_/@context_ /0/@elements.3/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.3/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.4/@definition/@context_/@context_ /0/@elements.4/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.4/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.5/@definition/@context_/@context_ /0/@elements.5/@definition/@feature/@body/@variable/@type /0/@elements.6/@definition/@context_/@context_ /0/@elements.6/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.6/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.7/@definition/@context_/@context_ /0/@elements.7/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.7/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.8/@definition/@context_/@context_ /0/@elements.8/@definition/@feature/@body/@variable/@type /0/@elements.9/@definition/@context_/@context_ /0/@elements.9/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.9/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.10/@definition/@context_/@context_ /0/@elements.10/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.10/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.11/@definition/@context_/@context_ /0/@elements.11/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.11/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.12/@definition/@context_/@context_ /0/@elements.12/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.12/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.13/@definition/@context_/@context_ /0/@elements.13/@definition/@feature/@returnType /0/@elements.13/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.13/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.14/@definition/@context_/@context_ /0/@elements.14/@definition/@feature/@returnType /0/@elements.14/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.14/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.15/@definition/@context_/@context_ /0/@elements.15/@definition/@feature/@returnType /0/@elements.15/@definition/@feature/@body/@variable/@type/@elementType /0/@elements.15/@definition/@feature/@body/@variable/@initExpression/@source/@source /0/@elements.16/@inPattern/@elements.0/@type /0/@elements.16/@variables.0/@type/@elementType /0/@elements.16/@variables.0/@initExpression/@source/@source/@source /0/@elements.16/@variables.1/@type/@elementType /0/@elements.16/@variables.1/@initExpression/@source/@source/@source /0/@elements.16/@variables.2/@type/@elementType /0/@elements.16/@variables.2/@initExpression/@source/@source/@source /0/@elements.16/@variables.3/@type/@elementType /0/@elements.16/@variables.3/@initExpression/@source/@source/@source /0/@elements.16/@outPattern/@elements.0/@type /0/@elements.17/@inPattern/@elements.0/@type /0/@elements.17/@inPattern/@filter/@thenExpression/@source/@arguments.0 /0/@elements.17/@variables.0/@type /0/@elements.17/@outPattern/@elements.0/@type /0/@elements.18/@inPattern/@elements.0/@type /0/@elements.18/@variables.0/@type /0/@elements.18/@outPattern/@elements.0/@type /0/@elements.19/@inPattern/@elements.0/@type /0/@elements.19/@variables.0/@type /0/@elements.19/@outPattern/@elements.0/@type /0/@elements.20/@inPattern/@elements.0/@type /0/@elements.20/@variables.0/@type /0/@elements.20/@outPattern/@elements.0/@type /0/@elements.21/@inPattern/@elements.0/@type /0/@elements.21/@outPattern/@elements.0/@type /0/@elements.22/@inPattern/@elements.0/@type /0/@elements.22/@outPattern/@elements.0/@type" model="/0/@outModels.0 /0/@inModels.0 /0/@inModels.1"/>
   <ocl:VariableDeclaration location="27:42-27:46" varName="self" variableExp="/0/@elements.2/@definition/@feature/@body/@variable/@initExpression/@source"/>
   <ocl:VariableDeclaration location="37:23-37:27" varName="self" variableExp="/0/@elements.3/@definition/@feature/@body/@variable/@initExpression/@body/@source/@arguments.0/@source"/>
   <ocl:VariableDeclaration location="37:51-37:55" varName="self" variableExp="/0/@elements.3/@definition/@feature/@body/@variable/@initExpression/@body/@arguments.0/@arguments.0/@source"/>
