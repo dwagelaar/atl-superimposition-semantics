@@ -1188,13 +1188,6 @@ rule OclModel {
     )
 }
 
-rule Test(s : ATL!"OCL::OclModel") {
-  to
-    t : ATL!"OCL:OclModel" (
-      name <- s.name.debug('Test')
-    )
-}
-
 helper def: realInElements : Set(ATL!"ATL::LocatedElement") =
   ATL!"ATL::LocatedElement".allInstancesFrom('IN');
 

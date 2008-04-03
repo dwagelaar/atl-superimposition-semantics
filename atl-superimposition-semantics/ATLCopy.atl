@@ -766,8 +766,3 @@ rule OclModel {
         elements <- s.elements,
         model <- s.model)
 }
-
-rule Test(s : ATL!"OCL::OclModel") {
-	to t : ATL!"OCL:OclModel" (
-		name <- s.name)
-}
