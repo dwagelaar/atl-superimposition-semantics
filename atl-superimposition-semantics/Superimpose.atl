@@ -3,20 +3,20 @@
 -- This transformation defines the semantics of superimposing SUPER on IN.
 module Superimpose;
 
-create OUT : ATL from IN : ATL, SUPER : ATL, TEST : ATL;
+create OUT : ATL from IN : ATL, SUPER : ATL;
 
 helper def : inElements : Set(ATL!"ATL::LocatedElement") = 
 	ATL!"ATL::LocatedElement".allInstancesFrom('IN')
-		->reject(o|o.isOverridden())->asSet()
-		->union(
-			ATL!"ATL::LocatedElement".allInstancesFrom('SUPER')
-			->reject(s|
-				if s.oclIsKindOf(ATL!"ATL::Rule")
-				or s.oclIsKindOf(ATL!"ATL::Helper") then
-					s.isOverriding()
-				else
-					false
-				endif));
+	->reject(o|o.isOverridden())->asSet()
+	->union(
+		ATL!"ATL::LocatedElement".allInstancesFrom('SUPER')
+		->reject(s|
+			if s.oclIsKindOf(ATL!"ATL::Rule")
+			or s.oclIsKindOf(ATL!"ATL::Helper") then
+				s.isOverriding()
+			else
+				false
+			endif));
 
 helper def : realInElements : Set(ATL!"ATL::LocatedElement") = 
 	ATL!"ATL::LocatedElement".allInstancesFrom('IN');
@@ -52,12 +52,25 @@ helper context ATL!"ATL::Helper" def : isOverridden() : Boolean =
 	in selfInSuper->notEmpty();
 
 helper context ATL!"OCL::VariableDeclaration" def : isOverridden() : Boolean =
-	self.variableExp->iterate(e; acc : Boolean = false |
-		acc or e.isOverridden());
+	let owner : ATL!"ATL::LocatedElement" = self.refImmediateComposite() in
+	let variableExpOverridden : Boolean =
+		self.variableExp->iterate(e; acc : Boolean = false |
+			acc or e.isOverridden()) in
+	if owner.oclIsUndefined() then
+		variableExpOverridden
+	else
+		owner.isOverridden() or variableExpOverridden
+	endif;
 
 helper context ATL!"OCL::OclModel" def : isOverridden() : Boolean =
 	let selfInSuper : Sequence(ATL!"OCL::OclModel") = 
 		ATL!"OCL::OclModel".allInstancesFrom('SUPER')
+		->select(r|r.name = self.name and r.oclType() = self.oclType())
+	in selfInSuper->notEmpty();
+
+helper context ATL!"ATL::LibraryRef" def : isOverridden() : Boolean =
+	let selfInSuper : Sequence(ATL!"ATL::LibraryRef") = 
+		ATL!"ATL::LibraryRef".allInstancesFrom('SUPER')
 		->select(r|r.name = self.name and r.oclType() = self.oclType())
 	in selfInSuper->notEmpty();
 
@@ -94,6 +107,12 @@ helper context ATL!"ATL::Helper" def : isOverriding() : Boolean =
 helper context ATL!"OCL::OclModel" def : isOverriding() : Boolean =
 	let selfInIN : Sequence(ATL!"OCL::OclModel") = 
 		ATL!"OCL::OclModel".allInstancesFrom('IN')
+		->select(r|r.name = self.name and r.oclType() = self.oclType())
+	in selfInIN->notEmpty();
+
+helper context ATL!"ATL::LibraryRef" def : isOverriding() : Boolean =
+	let selfInIN : Sequence(ATL!"ATL::LibraryRef") = 
+		ATL!"ATL::LibraryRef".allInstancesFrom('IN')
 		->select(r|r.name = self.name and r.oclType() = self.oclType())
 	in selfInIN->notEmpty();
 
@@ -158,6 +177,10 @@ rule Module {
 			ATL!"ATL::Module".allInstancesFrom('SUPER')
 			->collect(m|m.outModels)
 			->flatten();
+		superLibraryRefs : Sequence(ATL!"ATL::LibraryRef") =
+			ATL!"ATL::Module".allInstancesFrom('SUPER')
+			->collect(m|m.libraries)
+			->flatten();
     }
     to t : ATL!"ATL::Module" (
         location <- s.location,
@@ -165,7 +188,7 @@ rule Module {
         commentsAfter <- s.commentsAfter,
         name <- s.name,
         isRefining <- s.isRefining,
-        libraries <- s.libraries,
+        libraries <- s.libraries->union(superLibraryRefs),
         inModels <- s.inModels->union(superInModels),
         outModels <- s.outModels->union(superOutModels),
         elements <- s.elements->union(superElements))
@@ -192,6 +215,48 @@ rule OverriddenMatchedRule {
         inPattern <- o.inPattern,
         children <- o.children,
         superRule <- o.superRule)
+}
+
+rule OverriddenLazyMatchedRule {
+    from s : ATL!"ATL::LazyMatchedRule" (
+    	if thisModule.realInElements->includes(s) then
+			s.isOverridden()
+		else false endif)
+	using { o : ATL!"ATL::LazyMatchedRule" = s.overriddenBy(); }
+	to t : ATL!"ATL::LazyMatchedRule" (
+        location <- o.location,
+        commentsBefore <- o.commentsBefore,
+        commentsAfter <- o.commentsAfter,
+        name <- o.name,
+        isAbstract <- o.isAbstract,
+        isRefining <- o.isRefining,
+        isNoDefault <- o.isNoDefault,
+        isUnique <- o.isUnique,
+        outPattern <- o.outPattern,
+        actionBlock <- o.actionBlock,
+        variables <- o.variables,
+        inPattern <- o.inPattern,
+        children <- o.children,
+        superRule <- o.superRule)
+}
+
+rule OverriddenCalledRule {
+    from s : ATL!"ATL::CalledRule" (
+    	if thisModule.realInElements->includes(s) then
+			s.isOverridden()
+		else false endif)
+	using { o : ATL!"ATL::CalledRule" = s.overriddenBy(); }
+	to t : ATL!"ATL::CalledRule" (
+        location <- o.location,
+        commentsBefore <- o.commentsBefore,
+        commentsAfter <- o.commentsAfter,
+        name <- o.name,
+        isEntrypoint <- o.isEntrypoint,
+        isEndpoint <- o.isEndpoint,
+        outPattern <- o.outPattern,
+        actionBlock <- o.actionBlock,
+        variables <- o.variables,
+        parameters <- o.parameters)
 }
 
 rule OverriddenHelper {
@@ -228,4 +293,9 @@ rule OclModelElement {
         name <- s.name,
         type <- s.type,
         model <- s.model.overriddenBy())
+}
+
+rule Test(s : ATL!"OCL::OclModel") {
+	to t : ATL!"OCL:OclModel" (
+		name <- s.name.debug('Test'))
 }
