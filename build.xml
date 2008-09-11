@@ -16,11 +16,7 @@
 			</injector>
 		</am3.loadModel>
 		<am3.saveModel model="Superimpose" path="/${ant.project.name}/Superimpose.xmi"/>
-		<am3.loadModel modelHandler="EMF" name="ATL.tcs" metamodel="TCS" path="/${ant.project.name}/syntax/ATL.tcs">
-			<injector name="ebnf">
-				<param name="name" value="TCS"/>
-			</injector>
-		</am3.loadModel>
+		<am3.loadModel modelHandler="EMF" name="ATL.tcs" metamodel="TCS" path="/${ant.project.name}/syntax/ATL-TCS.ecore"/>
 	</target>
 	
 	<target name="atlCopy" depends="loadModels">
