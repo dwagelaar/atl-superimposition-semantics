@@ -272,18 +272,6 @@ rule OverriddenHelper {
         definition <- o.definition)
 }
 
-rule OclModel {
-    from s : ATL!"OCL::OclModel" (thisModule.inElements->includes(s))
-    to t : ATL!"OCL::OclModel" (
-        location <- s.location,
-        commentsBefore <- s.commentsBefore,
-        commentsAfter <- s.commentsAfter,
-        name <- s.name,
-        metamodel <- s.metamodel,
-        elements <- s.elements,
-        model <- s.model)
-}
-
 rule OclModelElement {
     from s : ATL!"OCL::OclModelElement" (thisModule.inElements->includes(s))
     to t : ATL!"OCL::OclModelElement" (
