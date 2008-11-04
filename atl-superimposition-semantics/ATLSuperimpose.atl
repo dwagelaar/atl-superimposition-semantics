@@ -1204,25 +1204,23 @@ helper context ATL!"ATL::LocatedElement" def: isOverridden() : Boolean =
   endif;
 
 helper context ATL!"ATL::Rule" def: isOverridden() : Boolean =
-  let selfInSuper : Sequence(ATL!"ATL::Rule") = ATL!"ATL::Rule".allInstancesFrom('SUPER')->select(r |
+  ATL!"ATL::Rule".allInstancesFrom('SUPER')->exists(r |
     r.name = self.name and r.oclType() = self.oclType()
-  ) in
-  selfInSuper->notEmpty();
+  );
 
 helper context ATL!"ATL::Helper" def: isOverridden() : Boolean =
-  let selfInSuper : Sequence(ATL!"ATL::Helper") = ATL!"ATL::Helper".allInstancesFrom('SUPER')->select(r |
+  ATL!"ATL::Helper".allInstancesFrom('SUPER')->exists(r |
     r.definition.feature.name = self.definition.feature.name and r.definition.feature.oclType() = self.definition.feature.oclType() and if r.definition.context_.oclIsUndefined() or self.definition.context_.oclIsUndefined() then
       r.definition.context_ = self.definition.context_
     else
       r.definition.context_.context_.name = self.definition.context_.context_.name
     endif
-  ) in
-  selfInSuper->notEmpty();
+  );
 
 helper context ATL!"OCL::VariableDeclaration" def: isOverridden() : Boolean =
   let owner : ATL!"ATL::LocatedElement" = self.refImmediateComposite() in
-  let variableExpOverridden : Boolean = self.variableExp->iterate(e; acc : Boolean = false |
-    acc or e.isOverridden()
+  let variableExpOverridden : Boolean = self.variableExp->exists(e |
+    e.isOverridden()
   ) in
   if owner.oclIsUndefined() then
     variableExpOverridden
@@ -1231,16 +1229,14 @@ helper context ATL!"OCL::VariableDeclaration" def: isOverridden() : Boolean =
   endif;
 
 helper context ATL!"OCL::OclModel" def: isOverridden() : Boolean =
-  let selfInSuper : Sequence(ATL!"OCL::OclModel") = ATL!"OCL::OclModel".allInstancesFrom('SUPER')->select(r |
+  ATL!"OCL::OclModel".allInstancesFrom('SUPER')->exists(r |
     r.name = self.name and r.oclType() = self.oclType()
-  ) in
-  selfInSuper->notEmpty();
+  );
 
 helper context ATL!"ATL::LibraryRef" def: isOverridden() : Boolean =
-  let selfInSuper : Sequence(ATL!"ATL::LibraryRef") = ATL!"ATL::LibraryRef".allInstancesFrom('SUPER')->select(r |
+  ATL!"ATL::LibraryRef".allInstancesFrom('SUPER')->exists(r |
     r.name = self.name and r.oclType() = self.oclType()
-  ) in
-  selfInSuper->notEmpty(); -- ***************************** isOverriding ******************************** 
+  ); -- ***************************** isOverriding ******************************** 
 -- ***************************** isOverriding ******************************** 
 helper context ATL!"ATL::LocatedElement" def: isOverriding() : Boolean =
   let owner : ATL!"ATL::LocatedElement" = self.refImmediateComposite() in
@@ -1251,32 +1247,28 @@ helper context ATL!"ATL::LocatedElement" def: isOverriding() : Boolean =
   endif;
 
 helper context ATL!"ATL::Rule" def: isOverriding() : Boolean =
-  let selfInIN : Sequence(ATL!"ATL::Rule") = ATL!"ATL::Rule".allInstancesFrom('IN')->select(r |
+  ATL!"ATL::Rule".allInstancesFrom('IN')->exists(r |
     r.name = self.name and r.oclType() = self.oclType()
-  ) in
-  selfInIN->notEmpty();
+  );
 
 helper context ATL!"ATL::Helper" def: isOverriding() : Boolean =
-  let selfInIN : Sequence(ATL!"ATL::Helper") = ATL!"ATL::Helper".allInstancesFrom('IN')->select(r |
+  ATL!"ATL::Helper".allInstancesFrom('IN')->exists(r |
     r.definition.feature.name = self.definition.feature.name and r.definition.feature.oclType() = self.definition.feature.oclType() and if r.definition.context_.oclIsUndefined() or self.definition.context_.oclIsUndefined() then
       r.definition.context_ = self.definition.context_
     else
       r.definition.context_.context_.name = self.definition.context_.context_.name
     endif
-  ) in
-  selfInIN->notEmpty();
+  );
 
 helper context ATL!"OCL::OclModel" def: isOverriding() : Boolean =
-  let selfInIN : Sequence(ATL!"OCL::OclModel") = ATL!"OCL::OclModel".allInstancesFrom('IN')->select(r |
+  ATL!"OCL::OclModel".allInstancesFrom('IN')->exists(r |
     r.name = self.name and r.oclType() = self.oclType()
-  ) in
-  selfInIN->notEmpty();
+  );
 
 helper context ATL!"ATL::LibraryRef" def: isOverriding() : Boolean =
-  let selfInIN : Sequence(ATL!"ATL::LibraryRef") = ATL!"ATL::LibraryRef".allInstancesFrom('IN')->select(r |
+  ATL!"ATL::LibraryRef".allInstancesFrom('IN')->exists(r |
     r.name = self.name and r.oclType() = self.oclType()
-  ) in
-  selfInIN->notEmpty(); -- ***************************** overriddenBy ******************************** 
+  ); -- ***************************** overriddenBy ******************************** 
 -- ***************************** overriddenBy ******************************** 
 helper context ATL!"ATL::Rule" def: overriddenBy() : ATL!"ATL::Rule" =
   let selfInSuper : Sequence(ATL!"ATL::Rule") = ATL!"ATL::Rule".allInstancesFrom('SUPER')->select(r |
